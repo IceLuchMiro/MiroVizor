@@ -1,0 +1,45 @@
+[project]
+name = "miro-vizor"
+version = "0.7.1"
+description = "МироВизор — маркировка текстов по 7 уровням Миросложения с админ-панелью и визуализацией"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "Лучезар" }
+]
+dependencies = [
+    "pymorphy3>=2.0",
+    "razdel>=0.5",
+    "numpy>=1.24",
+    "networkx>=3.0",
+]
+
+[project.optional-dependencies]
+web = ["streamlit>=1.28", "fastapi>=0.100", "uvicorn>=0.23"]
+embeddings = ["sentence-transformers>=2.0"]
+multilang = ["simplemma>=1.0"]
+dev = ["pytest>=7.0", "ruff>=0.1"]
+graph = ["tree-sitter>=0.23", "tree-sitter-python>=0.23"]
+all = ["miro-vizor[web,embeddings,multilang,dev,graph]"]
+
+[project.scripts]
+miro-vizor = "miro_vizor.cli:main"
+miro-vizor-admin = "miro_vizor.app_admin:run"
+miro-vizor-web = "miro_vizor.app_streamlit:run"
+
+[project.urls]
+Repository = "https://github.com/example/miro-vizor"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["miro_vizor*"]
+
+[tool.setuptools.package-data]
+miro_vizor = ["*.json", "vendor/**/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["miro_vizor/tests"]

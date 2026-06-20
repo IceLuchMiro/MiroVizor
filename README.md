@@ -1,4 +1,4 @@
-# miro_marker
+# MiroVizor
 
 Инструмент автоматической маркировки текстовых фрагментов по 7 уровням Миросложения.
 
@@ -14,7 +14,7 @@ pip install -e ".[all]"
 ## Использование
 
 ```python
-from miro_marker import MiroMarker
+from miro_vizor import MiroMarker
 
 marker = MiroMarker()
 result = marker.mark_text("Гармония природы требует сотрудничества всех живых систем.")
@@ -24,8 +24,8 @@ print(result["work"]["dominant_level"])  # L4
 ## Экспорт
 
 ```python
-from miro_marker import MiroMarker
-from miro_marker.exporter import MiroExporter
+from miro_vizor import MiroMarker
+from miro_vizor.exporter import MiroExporter
 
 marker = MiroMarker()
 result = marker.mark_text(text)
@@ -40,28 +40,28 @@ exporter.write_html(result, "result.html", text=text, title="Мой труд")
 
 ```bash
 # базовый JSON
-python -m miro_marker.cli sample.txt -o result.json
+python -m miro_vizor.cli sample.txt -o result.json
 
 # с векторной семантикой (по умолчанию включена)
-python -m miro_marker.cli sample.txt -o result.json
+python -m miro_vizor.cli sample.txt -o result.json
 
 # только прямое совпадение
-python -m miro_marker.cli sample.txt --no-embeddings -o result.json
+python -m miro_vizor.cli sample.txt --no-embeddings -o result.json
 
 # экспорт цветной HTML-разметки и CSV
-python -m miro_marker.cli sample.txt --html result.html --csv result.csv -o result.json
+python -m miro_vizor.cli sample.txt --html result.html --csv result.csv -o result.json
 
 # английский язык
-python -m miro_marker.cli sample_en.txt --language en --no-embeddings -o result.json
+python -m miro_vizor.cli sample_en.txt --language en --no-embeddings -o result.json
 ```
 
 ## Веб-интерфейс МироВизор (Streamlit)
 
 ```bash
 pip install -e ".[web]"
-miro-marker-web
+miro-vizor-web
 # или
-streamlit run miro_marker/app_streamlit.py
+streamlit run miro_vizor/app_streamlit.py
 ```
 
 В браузере откроется панель **МироВизор**: вставьте текст, нажмите «Разметить», получите спектр, HTML-разметку, графы и ссылки на скачивание JSON/HTML.
@@ -70,7 +70,7 @@ streamlit run miro_marker/app_streamlit.py
 
 ```bash
 pip install -e ".[web]"
-uvicorn miro_marker.app_api:app --reload --host 0.0.0.0 --port 8000
+uvicorn miro_vizor.app_api:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Примеры запросов:
@@ -129,7 +129,7 @@ pip install -e ".[graph]"
 
 ## Графовая визуализация (graphify)
 
-`miro_marker` включает vendored-версию [graphify](https://github.com/safishamsi/graphify) для построения интерактивных графов:
+`miro_vizor` включает vendored-версию [graphify](https://github.com/safishamsi/graphify) для построения интерактивных графов:
 
 - **Граф кода** — структура Python-проекта (файлы, классы, функции, импорты).
 - **Граф уровней** — семантический глосс из результата маркировки (главы → предложения → уровни Миросложения).
@@ -138,10 +138,10 @@ pip install -e ".[graph]"
 
 ```bash
 # граф Python-кода проекта
-python -m miro_marker.cli sample.txt --graph-code miro_marker --graph-output graph.html
+python -m miro_vizor.cli sample.txt --graph-code miro_vizor --graph-output graph.html
 
 # граф уровней из размеченного текста
-python -m miro_marker.cli sample.txt --graph-text --graph-output graph.html
+python -m miro_vizor.cli sample.txt --graph-text --graph-output graph.html
 ```
 
 После выполнения откройте `graph.html` в браузере — интерактивный vis.js граф с поиском, фильтром сообществ и информационной панелью.
@@ -151,7 +151,7 @@ python -m miro_marker.cli sample.txt --graph-text --graph-output graph.html
 ```bash
 curl -X POST "http://localhost:8000/graph/code" \
   -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "project_dir=miro_marker" \
+  -d "project_dir=miro_vizor" \
   --output graph.html
 
 curl -X POST "http://localhost:8000/graph/text" \
@@ -167,11 +167,11 @@ curl -X POST "http://localhost:8000/graph/text" \
 ### Python
 
 ```python
-from miro_marker import build_code_graph, build_levels_graph, MiroMarker
-from miro_marker.graphify_adapter import export_graph_html
+from miro_vizor import build_code_graph, build_levels_graph, MiroMarker
+from miro_vizor.graphify_adapter import export_graph_html
 
 # граф кода
-G = build_code_graph("miro_marker")
+G = build_code_graph("miro_vizor")
 export_graph_html(G, "code_graph.html")
 
 # граф уровней
@@ -186,9 +186,9 @@ export_graph_html(G2, "levels_graph.html")
 
 ```bash
 pip install -e ".[web]"
-miro-marker-admin
+miro-vizor-admin
 # или
-streamlit run miro_marker/app_admin.py
+streamlit run miro_vizor/app_admin.py
 ```
 
 Возможности:
@@ -197,6 +197,27 @@ streamlit run miro_marker/app_admin.py
 - **ℹ️ Система** — версия, статус зависимостей, запуск тестов.
 
 *[graphify](https://github.com/safishamsi/graphify) интегрирован как vendored-зависимость.*
+
+## Отчёты
+
+Каждый выполненный анализ сохраняется в папке `reports/<тема>/`:
+
+```text
+reports/
+└── sample/
+    ├── result.json        # полный профиль
+    ├── result.html        # цветная разметка
+    ├── result.csv         # таблица по предложениям
+    ├── report.md          # человекочитаемый отчёт
+    └── generate_report.py # скрипт генерации отчёта
+```
+
+Пример:
+
+```bash
+python -m miro_vizor.cli sample.txt -o reports/sample/result.json --html reports/sample/result.html --csv reports/sample/result.csv
+python reports/sample/generate_report.py
+```
 
 ## Структура
 
@@ -212,4 +233,3 @@ streamlit run miro_marker/app_admin.py
 - `app_streamlit.py` — веб-интерфейс
 - `app_admin.py` — административная панель
 - `app_api.py` — FastAPI API
-# MiroVizor  

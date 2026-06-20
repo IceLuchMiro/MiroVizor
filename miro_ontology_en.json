@@ -1,0 +1,416 @@
+{
+  "schema_version": "1.1",
+  "levels_count": 7,
+  "levels": {
+    "L1": {
+      "id": "L1",
+      "name": "Red",
+      "theme": "Basic needs, survival, structure",
+      "color": "#E53935",
+      "categories": {
+        "professions": [
+          "builder",
+          "miner",
+          "rescuer",
+          "soldier",
+          "firefighter",
+          "farmer",
+          "guard",
+          "plumber",
+          "electrician"
+        ],
+        "sciences": [
+          "classical mechanics",
+          "geology",
+          "materials science",
+          "physiology"
+        ],
+        "symbols": [
+          "fire",
+          "blood",
+          "earth",
+          "mountain",
+          "fortress",
+          "shield",
+          "anchor"
+        ],
+        "properties": [
+          "stability",
+          "foundation",
+          "support",
+          "physical strength",
+          "safety",
+          "instincts",
+          "material base"
+        ]
+      },
+      "keywords": [
+        "survival",
+        "need",
+        "structure",
+        "physics",
+        "matter",
+        "body",
+        "defense",
+        "work",
+        "strength",
+        "base",
+        "muscle",
+        "earth",
+        "stone",
+        "metal",
+        "shield",
+        "labor",
+        "overcoming"
+      ],
+      "term_weights": {
+        "survival": 1.5,
+        "strength": 1.2,
+        "defense": 1.2,
+        "base": 1.1
+      },
+      "synonyms": {
+        "strength": [
+          "power",
+          "might",
+          "force"
+        ],
+        "earth": [
+          "soil",
+          "ground",
+          "terra"
+        ]
+      },
+      "category_weights": {
+        "professions": 1.0,
+        "properties": 1.2
+      }
+    },
+    "L2": {
+      "id": "L2",
+      "name": "Orange",
+      "theme": "Dynamics, emotions, reproduction",
+      "color": "#FB8C00",
+      "categories": {
+        "professions": [
+          "choreographer",
+          "actor",
+          "animator",
+          "sexologist",
+          "dance trainer"
+        ],
+        "symbols": [
+          "sunset",
+          "candle flame",
+          "lotus",
+          "wave",
+          "spiral",
+          "butterfly"
+        ],
+        "properties": [
+          "joy",
+          "pleasure",
+          "energy",
+          "movement",
+          "birth",
+          "creativity",
+          "sensuality"
+        ]
+      },
+      "keywords": [
+        "emotion",
+        "feeling",
+        "passion",
+        "joy",
+        "pleasure",
+        "dance",
+        "movement",
+        "birth",
+        "growth",
+        "beauty",
+        "impulse",
+        "warmth"
+      ],
+      "term_weights": {
+        "joy": 1.3,
+        "passion": 1.2
+      }
+    },
+    "L3": {
+      "id": "L3",
+      "name": "Yellow",
+      "theme": "Will, regulation, metabolism",
+      "color": "#FDD835",
+      "categories": {
+        "professions": [
+          "leader",
+          "manager",
+          "coach",
+          "dietitian",
+          "chemist",
+          "consultant"
+        ],
+        "symbols": [
+          "sun",
+          "lightning",
+          "compass",
+          "gear",
+          "scales",
+          "road"
+        ],
+        "properties": [
+          "determination",
+          "discipline",
+          "efficiency",
+          "progress",
+          "strategy",
+          "leadership"
+        ]
+      },
+      "keywords": [
+        "will",
+        "goal",
+        "regulation",
+        "management",
+        "discipline",
+        "efficiency",
+        "strategy",
+        "leadership",
+        "achievement",
+        "control",
+        "resource",
+        "victory"
+      ],
+      "term_weights": {
+        "will": 1.3,
+        "goal": 1.2,
+        "leadership": 1.2
+      }
+    },
+    "L4": {
+      "id": "L4",
+      "name": "Green",
+      "theme": "Harmony, interdependence, symbiosis",
+      "color": "#43A047",
+      "categories": {
+        "professions": [
+          "ecologist",
+          "botanist",
+          "veterinarian",
+          "family psychologist",
+          "social worker",
+          "diplomat"
+        ],
+        "symbols": [
+          "tree",
+          "forest",
+          "heart",
+          "clover",
+          "lotus",
+          "rainbow",
+          "dove"
+        ],
+        "properties": [
+          "love",
+          "healing",
+          "compassion",
+          "balance",
+          "unity",
+          "cooperation"
+        ]
+      },
+      "keywords": [
+        "harmony",
+        "balance",
+        "symbiosis",
+        "ecology",
+        "nature",
+        "healing",
+        "love",
+        "compassion",
+        "unity",
+        "peace",
+        "health",
+        "plant",
+        "animal",
+        "family",
+        "community"
+      ],
+      "term_weights": {
+        "harmony": 1.5,
+        "love": 1.3,
+        "balance": 1.2
+      },
+      "synonyms": {
+        "harmony": [
+          "accord",
+          "agreement",
+          "balance"
+        ],
+        "love": [
+          "affection",
+          "tenderness"
+        ]
+      }
+    },
+    "L5": {
+      "id": "L5",
+      "name": "Blue",
+      "theme": "Communication, signals, expression",
+      "color": "#1E88E5",
+      "categories": {
+        "professions": [
+          "linguist",
+          "journalist",
+          "programmer",
+          "geneticist",
+          "teacher",
+          "translator"
+        ],
+        "symbols": [
+          "wave",
+          "sound",
+          "feather",
+          "book",
+          "antenna",
+          "dna code"
+        ],
+        "properties": [
+          "self-expression",
+          "dialogue",
+          "transparency",
+          "connection",
+          "clarity"
+        ]
+      },
+      "keywords": [
+        "language",
+        "communication",
+        "signal",
+        "information",
+        "dialogue",
+        "code",
+        "sound",
+        "text",
+        "word",
+        "exchange",
+        "network"
+      ],
+      "term_weights": {
+        "language": 1.3,
+        "communication": 1.2
+      }
+    },
+    "L6": {
+      "id": "L6",
+      "name": "Indigo",
+      "theme": "Intuition, patterns, cognitive maps",
+      "color": "#3949AB",
+      "categories": {
+        "professions": [
+          "mathematician",
+          "theoretical physicist",
+          "data analyst",
+          "astronomer",
+          "philosopher"
+        ],
+        "symbols": [
+          "eye",
+          "spiral",
+          "mandala",
+          "constellation",
+          "fractal",
+          "labyrinth"
+        ],
+        "properties": [
+          "insight",
+          "analysis",
+          "depth",
+          "synthesis",
+          "wisdom",
+          "abstract thinking"
+        ]
+      },
+      "keywords": [
+        "pattern",
+        "intuition",
+        "abstraction",
+        "essence",
+        "law",
+        "model",
+        "system",
+        "thought",
+        "idea",
+        "concept",
+        "theory",
+        "meditation",
+        "consciousness"
+      ],
+      "term_weights": {
+        "pattern": 1.3,
+        "intuition": 1.2
+      }
+    },
+    "L7": {
+      "id": "L7",
+      "name": "Violet",
+      "theme": "Wholeness, emergence, biosphere cycles",
+      "color": "#8E24AA",
+      "categories": {
+        "professions": [
+          "cosmologist",
+          "systems analyst",
+          "spiritual teacher",
+          "futurist",
+          "anthropologist"
+        ],
+        "symbols": [
+          "universe",
+          "mandala",
+          "aura",
+          "rainbow bridge",
+          "infinity",
+          "flower of life"
+        ],
+        "properties": [
+          "transcendence",
+          "enlightenment",
+          "unity of all being",
+          "cosmic consciousness"
+        ]
+      },
+      "keywords": [
+        "wholeness",
+        "emergence",
+        "cosmos",
+        "noosphere",
+        "transcendence",
+        "unity",
+        "biosphere",
+        "evolution",
+        "spirit",
+        "integration",
+        "infinity",
+        "mission"
+      ],
+      "term_weights": {
+        "wholeness": 1.5,
+        "unity": 1.3,
+        "cosmos": 1.2
+      }
+    }
+  },
+  "metadata": {
+    "author": "Лучезар, Миросложение",
+    "created": "2026-06-18",
+    "language": "en",
+    "schema_version": "1.1",
+    "normalization": "lower_lemma",
+    "features": [
+      "synonyms",
+      "term_weights",
+      "category_weights",
+      "custom_levels"
+    ]
+  }
+}
