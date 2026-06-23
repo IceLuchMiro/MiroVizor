@@ -198,18 +198,31 @@ streamlit run miro_vizor/app_admin.py
 
 *[graphify](https://github.com/safishamsi/graphify) интегрирован как vendored-зависимость.*
 
+> **Исправлено (graphify-адаптер):** адаптер переписан под реальный API vendored graphify
+> (`collect_files` / `extract` / `build_from_json` / `cluster` / `to_html`). Ранее вызовы
+> `--graph-code` и `--graph-text` падали с `RuntimeError: graphify is not available`.
+> Теперь `build_code_graph` и `build_levels_graph` возвращают NetworkX-граф, `export_graph_html`
+> корректно рендерит vis.js-разметку. Тесты `tests/test_graphify.py` проходят.
+
 ## Отчёты
 
 Каждый выполненный анализ сохраняется в папке `reports/<тема>/`:
 
 ```text
 reports/
-└── sample/
-    ├── result.json        # полный профиль
-    ├── result.html        # цветная разметка
-    ├── result.csv         # таблица по предложениям
-    ├── report.md          # человекочитаемый отчёт
-    └── generate_report.py # скрипт генерации отчёта
+├── sample/                    # анализ sample.txt
+│   ├── result.json           # полный профиль
+│   ├── result.html           # цветная разметка
+│   ├── result.csv            # таблица по предложениям
+│   ├── report.md             # человекочитаемый отчёт
+│   └── generate_report.py    # скрипт генерации отчёта
+└── graphify/                 # графы кода и уровней
+    ├── code_graph.html       # граф кода (весь проект + vendor)
+    ├── code_graph_own.html   # граф кода (только собственный код miro_vizor)
+    ├── text_graph.html       # граф уровней из sample.txt
+    ├── code_graph_stats.json # метрики графа кода
+    ├── sample_result.json    # разметка sample.txt для построения text_graph
+    └── report.md             # отчёт и выводы по структуре проекта
 ```
 
 Пример:
@@ -217,6 +230,10 @@ reports/
 ```bash
 python -m miro_vizor.cli sample.txt -o reports/sample/result.json --html reports/sample/result.html --csv reports/sample/result.csv
 python reports/sample/generate_report.py
+
+# графы кода и уровней
+python -m miro_vizor.cli sample.txt --graph-code miro_vizor --graph-output reports/graphify/code_graph.html
+python -m miro_vizor.cli sample.txt --graph-text --graph-output reports/graphify/text_graph.html
 ```
 
 ## Структура

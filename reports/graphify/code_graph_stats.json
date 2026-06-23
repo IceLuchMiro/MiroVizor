@@ -1,0 +1,139 @@
+{
+  "nodes": 101,
+  "edges": 180,
+  "communities": 10,
+  "relations": {
+    "imports_from": 32,
+    "contains": 46,
+    "calls": 60,
+    "method": 42
+  },
+  "top_degree": [
+    {
+      "label": "app_api.py",
+      "degree": 15,
+      "source_file": "miro_vizor\\app_api.py"
+    },
+    {
+      "label": "app_admin.py",
+      "degree": 13,
+      "source_file": "miro_vizor\\app_admin.py"
+    },
+    {
+      "label": "graphify_adapter.py",
+      "degree": 12,
+      "source_file": "miro_vizor\\graphify_adapter.py"
+    },
+    {
+      "label": "ontology.py",
+      "degree": 12,
+      "source_file": "miro_vizor\\ontology.py"
+    },
+    {
+      "label": "MiroOntology",
+      "degree": 12,
+      "source_file": "miro_vizor\\ontology.py"
+    },
+    {
+      "label": "marker.py",
+      "degree": 10,
+      "source_file": "miro_vizor\\marker.py"
+    },
+    {
+      "label": "MiroExporter",
+      "degree": 9,
+      "source_file": "miro_vizor\\exporter.py"
+    },
+    {
+      "label": "_get_marker()",
+      "degree": 8,
+      "source_file": "miro_vizor\\app_api.py"
+    },
+    {
+      "label": "scorer.py",
+      "degree": 8,
+      "source_file": "miro_vizor\\scorer.py"
+    },
+    {
+      "label": "mark_text()",
+      "degree": 7,
+      "source_file": "miro_vizor\\app_api.py"
+    },
+    {
+      "label": "MiroEmbedder",
+      "degree": 7,
+      "source_file": "miro_vizor\\embedder.py"
+    },
+    {
+      "label": "exporter.py",
+      "degree": 7,
+      "source_file": "miro_vizor\\exporter.py"
+    },
+    {
+      "label": "_ensure_graphify()",
+      "degree": 7,
+      "source_file": "miro_vizor\\graphify_adapter.py"
+    },
+    {
+      "label": "MiroTokenizer",
+      "degree": 7,
+      "source_file": "miro_vizor\\tokenizer.py"
+    },
+    {
+      "label": "__init__.py",
+      "degree": 6,
+      "source_file": "miro_vizor\\__init__.py"
+    },
+    {
+      "label": "languages.py",
+      "degree": 6,
+      "source_file": "miro_vizor\\languages.py"
+    },
+    {
+      "label": "MiroMarker",
+      "degree": 6,
+      "source_file": "miro_vizor\\marker.py"
+    },
+    {
+      "label": "tokenizer.py",
+      "degree": 6,
+      "source_file": "miro_vizor\\tokenizer.py"
+    },
+    {
+      "label": "run()",
+      "degree": 5,
+      "source_file": "miro_vizor\\app_admin.py"
+    },
+    {
+      "label": "app_streamlit.py",
+      "degree": 5,
+      "source_file": "miro_vizor\\app_streamlit.py"
+    }
+  ],
+  "top_cohesion": [
+    {
+      "community": 9,
+      "cohesion": 0.67
+    },
+    {
+      "community": 8,
+      "cohesion": 0.6
+    },
+    {
+      "community": 7,
+      "cohesion": 0.52
+    },
+    {
+      "community": 5,
+      "cohesion": 0.4
+    },
+    {
+      "community": 2,
+      "cohesion": 0.38
+    },
+    {
+      "community": 3,
+      "cohesion": 0.35
+    }
+  ]
+}
