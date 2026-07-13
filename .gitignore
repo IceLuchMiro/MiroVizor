@@ -27,3 +27,9 @@ tmp/
 .polza/
 plans/
 *.plan
+
+# auxiliary push scripts (may contain credentials)
+push_repo.py
+push_repo2.py
+push_force.py
+check_remote.py

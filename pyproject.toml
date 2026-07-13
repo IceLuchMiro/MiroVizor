@@ -25,7 +25,7 @@ all = ["miro-vizor[web,embeddings,multilang,dev,graph]"]
 [project.scripts]
 miro-vizor = "miro_vizor.cli:main"
 miro-vizor-admin = "miro_vizor.app_admin:run"
-miro-vizor-web = "miro_vizor.app_streamlit:run"
+miro-vizor-web = "miro_vizor.app_streamlit:main"
 
 [project.urls]
 Repository = "https://github.com/example/miro-vizor"
