@@ -901,7 +901,6 @@ def _render_hero(ontology: MiroOntology | None = None) -> None:
             Исследуйте смысловой спектр текста по семи уровням Миросложения —
             от основы и жизненной динамики к гармонии, связи, глубине и целостности.
           </p>
-          <div class="hero-levels">{chip_html}</div>
         </section>
         """,
         unsafe_allow_html=True,
@@ -1041,8 +1040,6 @@ def run() -> None:
             ontology = MiroOntology.from_package(language=language)
             exporter = MiroExporter(ontology=ontology)
             st.success(f"Анализ завершён · язык: {language.upper()}")
-            _render_level_ribbon(ontology)
-            _render_symbol_key(ontology)
             _render_summary(result, ontology)
             st.subheader("Смысловой спектр")
             st.caption("Доля каждого уровня Миросложения во всём тексте.")

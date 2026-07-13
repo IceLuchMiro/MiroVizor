@@ -6,6 +6,18 @@ from pathlib import Path
 from typing import Any
 
 
+# Единая палитра Миросложения: L1 → L7.
+LEVEL_COLORS: dict[str, str] = {
+    "L1": "#E53935",  # красный
+    "L2": "#FB8C00",  # оранжевый
+    "L3": "#FDD835",  # жёлтый
+    "L4": "#43A047",  # зелёный
+    "L5": "#1E88E5",  # голубой
+    "L6": "#3949AB",  # синий
+    "L7": "#8E24AA",  # фиолетовый
+}
+
+
 LEVEL_FIELDS = [
     "name",
     "description",
@@ -124,7 +136,8 @@ class MiroOntology:
         return self.levels.get(level_id, {})
 
     def color(self, level_id: str) -> str:
-        return self.level(level_id).get("color", "#000000")
+        # Стандартные L1–L7 всегда сохраняют канонический порядок цветов.
+        return LEVEL_COLORS.get(level_id) or self.level(level_id).get("color") or "#000000"
 
     def name(self, level_id: str) -> str:
         return self.level(level_id).get("name", level_id)

@@ -336,44 +336,6 @@ class MiroExporter:
                 f'</div>\n'
             )
 
-        # ── легенда с символами ──
-        parts.append('<div class="legend">\n')
-        for level in levels_ids:
-            sym = _symbol(level)
-            parts.append(
-                f'<span class="legend-item"'
-                f' style="background:{colors[level]};">'
-                f'<span class="legend-symbol">{sym}</span>'
-                f" {level} {html.escape(names[level])}</span>\n",
-            )
-        parts.append("</div>\n")
-
-        # ── полоса спектра ──
-        parts.append('<div class="work-bar">\n')
-        total = sum(spectrum.get(lvl, 0.0) for lvl in levels_ids)
-        for level in levels_ids:
-            value = spectrum.get(level, 0.0)
-            pct = value / total * 100 if total > 0 else 0
-            if value:
-                sym = _symbol(level)
-                parts.append(
-                    f'<div class="bar-segment"'
-                    f' style="min-width:{max(pct, 0.5):.2f}%;'
-                    f' width:{pct:.2f}%;'
-                    f' background:{colors[level]}"'
-                    f' title="{sym} {level}: {value:.2f} ({pct:.1f}%)">'
-                    f'</div>\n',
-                )
-        parts.append("</div>\n")
-
-        # ── ключ-полоска символов ──
-        parts.append('<div class="key-strip">\n')
-        for level in levels_ids:
-            c = colors[level]
-            parts.append(f'<span class="key-char" style="color:{c}">'
-                         f'{_symbol(level)}</span>\n')
-        parts.append("</div>\n")
-
         # ── график уровней по предложениям ──
         chart_html = self._render_chart(
             result, levels_ids, colors, names, source_text=text,
@@ -871,7 +833,7 @@ class MiroExporter:
         token_layout["title"] = {
             "text": "Линейный график токенов Миросложения",
             "font": {"size": 16},
-            "x": 0,
+            "x": 0.03,
             "xanchor": "left",
             "y": 0.985,
             "yanchor": "top",

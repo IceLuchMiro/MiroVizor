@@ -2,6 +2,9 @@
 from __future__ import annotations
 
 import json
+import os
+import signal
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -12,7 +15,7 @@ from . import __version__
 from .exporter import MiroExporter
 from .languages import detect_language
 from .marker import MiroMarker
-from .ontology import LEVEL_FIELDS, MiroOntology
+from .ontology import LEVEL_COLORS, LEVEL_FIELDS, MiroOntology
 
 
 def _ontology_path(language: str) -> Path:
@@ -142,8 +145,10 @@ def _render_ontology_editor() -> None:
     if st.button("Добавить уровень", key="btn_add_level"):
         if new_level_id and new_level_id not in levels:
             levels[new_level_id] = {
+                "id": new_level_id,
                 "name": f"Уровень {new_level_id}",
                 "description": "",
+                "color": LEVEL_COLORS.get(new_level_id, "#000000"),
                 "keywords": [],
                 "weight": 1.0,
                 "synonyms": {},
@@ -179,9 +184,11 @@ def _render_ontology_editor() -> None:
             return
 
         levels[selected_level] = {
+            "id": selected_level,
             "name": name,
             "description": description,
             "weight": weight,
+            "color": LEVEL_COLORS.get(selected_level) or level.get("color", "#000000"),
             "keywords": [kw.strip() for kw in keywords_str.split(",") if kw.strip()],
             "synonyms": synonyms_parsed,
             "term_weights": term_weights_parsed,
@@ -267,8 +274,131 @@ def _render_run_panel() -> None:
         )
 
 
+def _miro_processes() -> list[tuple[int, str]]:
+    """Возвращает процессы МироВизора, исключая текущий процесс админки."""
+    current_pid = os.getpid()
+    processes: list[tuple[int, str]] = []
+
+    if os.name == "nt":
+        command = (
+            "Get-CimInstance Win32_Process | "
+            "Where-Object { $_.Name -match 'miro-vizor-(web|admin)\\.exe' "
+            "-or $_.CommandLine -match 'miro-vizor-(web|admin)|app_streamlit\\.py|app_admin\\.py' } | "
+            "Select-Object ProcessId,Name,CommandLine | ConvertTo-Json -Compress"
+        )
+        try:
+            raw = subprocess.check_output(
+                ["powershell", "-NoProfile", "-Command", command],
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+            ).strip()
+            if not raw:
+                return processes
+            records = json.loads(raw)
+            if isinstance(records, dict):
+                records = [records]
+        except (OSError, subprocess.SubprocessError, json.JSONDecodeError):
+            return processes
+        for record in records:
+            pid = record.get("ProcessId")
+            if not isinstance(pid, int) or pid == current_pid:
+                continue
+            name = record.get("Name") or "python.exe"
+            command_line = record.get("CommandLine") or name
+            processes.append((pid, command_line))
+        return processes
+
+    try:
+        output = subprocess.check_output(["ps", "-eo", "pid=,args="], text=True)
+    except (OSError, subprocess.SubprocessError):
+        return processes
+    for line in output.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        pid_text, _, command_text = line.partition(" ")
+        if not pid_text.isdigit() or int(pid_text) == current_pid:
+            continue
+        if any(marker in command_text for marker in ("miro-vizor-web", "miro-vizor-admin", "app_streamlit.py", "app_admin.py")):
+            processes.append((int(pid_text), command_text))
+    return processes
+
+
+def _stop_miro_processes(processes: list[tuple[int, str]]) -> list[int]:
+    """Останавливает только переданные процессы и возвращает PID с ошибками."""
+    failed: list[int] = []
+    for pid, _ in processes:
+        try:
+            if os.name == "nt":
+                subprocess.run(["taskkill", "/F", "/PID", str(pid)], check=True, capture_output=True, text=True)
+            else:
+                os.kill(pid, signal.SIGTERM)
+        except (OSError, subprocess.SubprocessError):
+            failed.append(pid)
+    return failed
+
+
+def _render_process_control() -> None:
+    st.subheader("Управление процессами")
+    st.caption("Кнопка останавливает веб-панель и другие процессы МироВизора, но не текущую админ-панель.")
+    processes = _miro_processes()
+    if processes:
+        st.write("Найдены процессы:")
+        st.table([{"PID": pid, "Процесс": name} for pid, name in processes])
+    else:
+        st.info("Других процессов МироВизора не найдено.")
+
+    confirm = st.checkbox("Подтверждаю остановку процессов", key="confirm_stop_miro")
+    if st.button("⛔ Остановить процессы МироВизора", type="secondary", key="btn_stop_miro"):
+        if not confirm:
+            st.warning("Сначала подтвердите остановку процессов.")
+            return
+        failed = _stop_miro_processes(processes)
+        if failed:
+            st.error(f"Не удалось остановить PID: {', '.join(map(str, failed))}")
+        elif processes:
+            st.success("Процессы МироВизора остановлены.")
+        else:
+            st.info("Активных процессов для остановки не было.")
+        st.rerun()
+
+
+def _render_command_help() -> None:
+    st.subheader("Команды управления")
+    st.caption("Запускайте команды в PowerShell или CMD из корня проекта.")
+    st.code(
+        """# Установить/обновить пакет и команды
+python -m pip install -e .[web]
+
+# Запустить веб-панель
+miro-vizor-web
+
+# Запустить админ-панель
+miro-vizor-admin
+
+# Запустить на конкретном порту
+miro-vizor-web --server.port 8501
+
+# Проверить процессы МироВизора
+Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'miro-vizor' -or $_.CommandLine -match 'app_streamlit.py|app_admin.py|streamlit' } | Select-Object ProcessId,Name,CommandLine
+
+# Завершить веб-панель по PID вместе с дочерними процессами
+taskkill /F /T /PID <PID>
+
+# Проверить занятый порт
+Get-NetTCPConnection -LocalPort 8501 -ErrorAction SilentlyContinue
+""",
+        language="powershell",
+    )
+
+
 def _render_system_info() -> None:
     st.subheader("Системная информация")
+    _render_process_control()
+    st.divider()
+    _render_command_help()
+    st.divider()
     st.write(f"**Версия пакета:** `{__version__}`")
     st.write(f"**Python:** `{sys.version}`")
     st.write(f"**Корень проекта:** `{Path(__file__).parent.resolve()}`")
